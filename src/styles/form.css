@@ -1,0 +1,41 @@
+.set_name {
+    margin: auto;
+    width: 600px;
+    border-radius: 10px;
+    color: green;
+}
+
+.full_scale {
+    padding-top: 80px;
+    position: absolute;
+    top: 0;
+    z-index: 3;
+    width: 100%;
+    height: 100%;
+    background-color: rgb(223, 243, 193);
+}
+
+.restart {
+    font-size: 80px;
+    padding: 50px;
+}
+
+.result {
+    font-size: 50px;
+    margin: 200px auto;
+    width: 400px;
+}
+
+.comment {
+    margin: 10px 20px;
+}
+
+h2 {
+    margin: 0 120px;
+}
+
+.start_button{
+    background-color: green;
+    font-size: large;
+    color: white;
+}
