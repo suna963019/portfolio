@@ -301,7 +301,7 @@ export default {
         },
         //デッキの初期化
         deckReset() {
-            for (const i of this.cardCheck) {
+            for (let i of this.cardCheck) {
                 i = 0;
             }
         }

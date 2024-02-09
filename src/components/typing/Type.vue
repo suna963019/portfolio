@@ -1,45 +1,23 @@
 <template>
-    <div class="content_box">
-        <h2 class="text-center timer">{{ time }}秒経過</h2>
-        <br>
-        <div class="d-flex text">
-            <pre class="message1">{{ message1 }}</pre>
-            <pre class="now">{{ now }}</pre>
-            <pre class="message2">{{ message2 }}</pre>
+    <div class="d-flex">
+        <div class="set_name">
+            <h2 class="text-center">タイピングゲーム</h2>
+            <h3 class="comment">制限時間なし</h3>
+            <h3 class="comment">操作説明</h3>
+            <p class="comment">　英字で文字が出てくるので同じものをキーボードで打ってください。半角全角は区別します。早い程スコアが上がります。頑張ってください。
+            </p>
+            <v-btn @click="start_game()" class="start_button">開始</v-btn>
+            <v-btn @click="start_game()" class="start_button">再挑戦</v-btn>
         </div>
-        <div class="full_scale" v-if="!this.startCheck">
-            <div class="set_name">
-                <h2 class="text-center">タイピングゲーム</h2>
-                <h3 class="comment">制限時間なし</h3>
-                <h3 class="comment">操作説明</h3>
-                <p class="comment">　英字で文字が出てくるので同じものをキーボードで打ってください。半角全角は区別します。早い程スコアが上がります。頑張ってください。
-                </p>
-                <v-form @submit.prevent>
-                    <v-text-field v-model="name" label="お名前(ニックネーム)" required></v-text-field>
-                    <v-btn type="submit" block @click="start_game()" class="start_button">開始</v-btn>
-                </v-form>
+        <div class="content_box">
+            <h2 class="text-center timer">{{ time }}秒経過</h2>
+            <br>
+            <div class="d-flex text">
+                <pre class="message1">{{ message1 }}</pre>
+                <pre class="now">{{ now }}</pre>
+                <pre class="message2">{{ message2 }}</pre>
             </div>
-        </div>
-        <div class="full_scale" v-if="endCheck">
-            <div class="result">
-                <table>
-                    <tr>
-                        <th>順位</th>
-                        <td>:</td>
-                        <td>{{ parseInt(number) + 1 }}位</td>
-                    </tr>
-                    <tr>
-                        <th>名前</th>
-                        <td>:</td>
-                        <td>{{ name }}</td>
-                    </tr>
-                    <tr>
-                        <th>点数</th>
-                        <td>:</td>
-                        <td>{{ score }}点</td>
-                    </tr>
-                </table>
-                <v-btn @click="reset"  class="start_button">再挑戦</v-btn>
+            <div class="full_scale" v-if="!this.startCheck">
             </div>
         </div>
     </div>
@@ -65,7 +43,7 @@ export default {
                 'beetle',
                 'singularity',
                 'a secret emperor'],
-            default_ja:[
+            default_ja: [
                 '螺旋階段',
                 'カブトムシ',
                 '廃墟の町',
@@ -86,13 +64,8 @@ export default {
             message1: '',
             now: '',
             message2: 'Face the fear, Build the future',
-            name: '',
-            score: 0,
-            time: 0,
-            number: Number,
             startCheck: false,
             endCheck: false,
-            interval: Number,
         }
     },
     mounted() {
@@ -105,13 +78,6 @@ export default {
     methods: {
         start_game() {
             this.startCheck = true
-            this.interval = setInterval(this.timer, 1000)
-            if (this.name == '') {
-                this.name = '名無し'
-            }
-        },
-        timer() {
-            this.time++
         },
         type(event) {
             if (!this.startCheck || this.endCheck) {
@@ -150,23 +116,8 @@ export default {
             this.set_next_char()
         },
         async addData() {
-            clearInterval(this.interval)
             this.score = (300 - this.time) * 10
             this.endCheck = true
-            const data = {
-                name: this.name,
-                point: this.score
-            }
-            const param = {
-                method: 'POST',
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(data),
-            }
-            const response = await fetch('http://127.0.0.1:8000/api/typing/add', param)
-            const result = await response.json()
-            this.number = result[0]
         },
     }
 }
@@ -177,7 +128,7 @@ export default {
     position: relative;
 }
 
-.timer{
+.timer {
     padding: 50px;
 }
 
@@ -195,7 +146,8 @@ export default {
 .message1 {
     margin-right: -2px;
     background-color: rgb(223, 243, 193);
-    color: rgba(0, 128, 0, 0.300)}
+    color: rgba(0, 128, 0, 0.300)
+}
 
 .message2 {
     margin-left: -2px;
