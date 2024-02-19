@@ -1,6 +1,6 @@
 .set_name {
-    margin: auto;
-    width: 600px;
+    margin-top: 200px;
+    width: 300px;
     border-radius: 10px;
     color: green;
 }
@@ -28,10 +28,6 @@
 
 .comment {
     margin: 10px 20px;
-}
-
-h2 {
-    margin: 0 120px;
 }
 
 .start_button{

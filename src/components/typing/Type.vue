@@ -2,22 +2,14 @@
     <div class="d-flex">
         <div class="set_name">
             <h2 class="text-center">タイピングゲーム</h2>
-            <h3 class="comment">制限時間なし</h3>
             <h3 class="comment">操作説明</h3>
-            <p class="comment">　英字で文字が出てくるので同じものをキーボードで打ってください。半角全角は区別します。早い程スコアが上がります。頑張ってください。
-            </p>
-            <v-btn @click="start_game()" class="start_button">開始</v-btn>
-            <v-btn @click="start_game()" class="start_button">再挑戦</v-btn>
+            <p class="comment">　英字で文字が出てくるので同じものをキーボードで打ってください。半角全角は区別します。</p>
         </div>
         <div class="content_box">
-            <h2 class="text-center timer">{{ time }}秒経過</h2>
-            <br>
             <div class="d-flex text">
                 <pre class="message1">{{ message1 }}</pre>
                 <pre class="now">{{ now }}</pre>
                 <pre class="message2">{{ message2 }}</pre>
-            </div>
-            <div class="full_scale" v-if="!this.startCheck">
             </div>
         </div>
     </div>
@@ -61,11 +53,10 @@ export default {
             ],
             count: 0,
             char_count: 1,
+            message: '',
             message1: '',
             now: '',
             message2: 'Face the fear, Build the future',
-            startCheck: false,
-            endCheck: false,
         }
     },
     mounted() {
@@ -76,13 +67,7 @@ export default {
         this.reset()
     },
     methods: {
-        start_game() {
-            this.startCheck = true
-        },
         type(event) {
-            if (!this.startCheck || this.endCheck) {
-                return
-            }
             if (this.now == event.key) {
                 this.set_next_char()
             }
@@ -100,24 +85,25 @@ export default {
             this.message1 += this.now
             this.now = str.charAt(0)
             this.message2 = str.slice(1)
+            console.log(this.message2)
         },
         set_next_string() {
             this.count++
             this.message1 = ''
             this.now = this.default[this.count].charAt(0)
             this.message2 = this.default[this.count].slice(1)
+            this.message = this.default_ja[this.count]
         },
         reset() {
             this.count = 0
             this.message1 = ''
             this.now = ''
             this.message2 = this.default[0]
-            this.endCheck = false
+            this.message = this.default_ja[0]
             this.set_next_char()
         },
         async addData() {
             this.score = (300 - this.time) * 10
-            this.endCheck = true
         },
     }
 }
@@ -125,11 +111,9 @@ export default {
 
 <style scoped>
 .content_box {
+    width: 500px;
+    margin-right: auto;
     position: relative;
-}
-
-.timer {
-    padding: 50px;
 }
 
 .text {
