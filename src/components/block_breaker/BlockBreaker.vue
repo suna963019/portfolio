@@ -1,41 +1,28 @@
 <template>
-    <div class="content">
+    <div class="set_name">
+        <h2 class="text-center">ブロックくずし</h2>
+        <h3 class="comment">制限時間なし</h3>
+        <h3 class="comment">操作説明</h3>
+        <table class="comment">
+            <tr>
+                <th>←/→</th>
+                <td>:</td>
+                <td>左/右移動</td>
+            </tr>
+            <tr>
+                <th>※注意</th>
+                <td>:</td>
+                <td>当てる位置によって跳ね返る角度が変わります。</td>
+            </tr>
+        </table>
+        <v-btn @click="restart()">再挑戦</v-btn>
+    </div>
+    <div>
         <h2 class="text-center">score:{{ score }}point</h2>
         <div class="game_box">
             <Block v-bind:color="block" v-for="block in blocks" />
             <Ball v-bind:ball="ball" />
             <Raket v-bind:block="raket[0]" />
-        </div>
-
-        <div v-if="startCheck" class="full_scale">
-            <div class="set_name">
-                <h2 class="text-center">ブロックくずし</h2>
-                <h3 class="comment">制限時間なし</h3>
-                <h3 class="comment">操作説明</h3>
-                <table class="comment">
-                    <tr>
-                        <th>←/→</th>
-                        <td>:</td>
-                        <td>左/右移動</td>
-                    </tr>
-                    <tr>
-                        <th>※注意</th>
-                        <td>:</td>
-                        <td>当てる位置によって跳ね返る角度が変わります。</td>
-                    </tr>
-                </table>
-                <v-form @submit.prevent>
-                    <v-text-field v-model="name" label="お名前(ニックネーム)" required></v-text-field>
-                    <v-btn type="submit" block @click="start"  class="start_button">開始</v-btn>
-                </v-form>
-            </div>
-        </div>
-        <div v-if="endCheck" class="d-flex justify-center full_scale">
-            <div class="restart">
-                <p>スコア：{{ score }}</p>
-                <p>順位：{{ parseInt(number) + 1 }}</p>
-                <v-btn @click="start" class="start_button">再挑戦</v-btn>
-            </div>
         </div>
     </div>
 </template>
@@ -69,13 +56,11 @@ export default {
         document.addEventListener('keyup', this.keyup)
         setInterval(this.push_key, 10)
         setInterval(this.changer, 20)
+        this.start()
     },
     methods: {
         start() {
-            if (this.name === '') {
-                this.name = '名無し'
-            }
-            this.ball=[0, 0, 320, 450]
+            this.ball = [0, 0, 320, 450]
             this.blocks = []
             for (let i = 0; i < 80; i++) {
                 this.blocks.push(true)
@@ -84,10 +69,12 @@ export default {
             this.endCheck = false
             this.ball[1] = -8
         },
+        restart(){
+            this.start()
+        },
         end() {
             this.ball[1] = 0
             this.ball[0] = 0
-            this.addData()
         },
         keydown(event) {
             if (this.key == '') {
@@ -211,36 +198,13 @@ export default {
             this.ball[2] = x
             this.ball[3] = y
         },
-        async addData() {
-            const data = {
-                name: this.name,
-                point: this.score
-            }
-            const param = {
-                method: 'POST',
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(data),
-            }
-            const response = await fetch('http://127.0.0.1:8000/api/blockbreaker/add', param);
-            const result = await response.json();
-            this.number = result[0]
-            this.endCheck = true
-        },
-
     }
 }
 </script>
 <style src="@/styles/form.css"></style>
 <style scoped>
-h2{
+h2 {
     color: green;
-}
-.content {
-    padding-top: 50px;
-    height: 900px;
-    position: relative;
 }
 
 .game_box {

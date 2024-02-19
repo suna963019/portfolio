@@ -17,7 +17,7 @@ export default {
 </script>
 <style>
 .block {
-    width: 80px;
+    width: 79.8px;
     height: 30px;
     border: 1px solid white;
     background-color: v-bind(color ? 'green' : 'white');

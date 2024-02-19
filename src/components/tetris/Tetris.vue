@@ -1,10 +1,38 @@
 <template>
-    <div class="tetris">
-        <div id="topline">
-            <h2>score:{{ score }}</h2>
-            <h2>残り{{ time }}秒</h2>
-        </div>
-        <div id="game_box">
+    <div class="set_name">
+        <h2 class="text-center">テトリス</h2>
+        <h3 class="comment">操作説明</h3>
+        <table class="comment">
+            <tr>
+                <th>矢印キー上（↑）</th>
+                <td>:</td>
+                <td>ブロックが右回転</td>
+            </tr>
+            <tr>
+                <th>矢印キー右（→）</th>
+                <td>:</td>
+                <td>ブロックが右移動</td>
+            </tr>
+            <tr>
+                <th>矢印キー上（←）</th>
+                <td>:</td>
+                <td>ブロックが左移動</td>
+            </tr>
+            <tr>
+                <th>矢印キー下（↓）</th>
+                <td>:</td>
+                <td>ブロックが最下段に落ちる</td>
+            </tr>
+            <tr>
+                <th>スペースキー</th>
+                <td>:</td>
+                <td>ブロックのキープと取り出し（一度目はキープのみ）</td>
+            </tr>
+        </table>
+        <v-btn @click="restart_game()">再挑戦</v-btn>
+    </div>
+    <div class="game">
+        <div class="d-flex">
             <div id="stage">
                 <div v-for="stage_lane in stage">
                     <Block v-for="stage_block in stage_lane" v-bind:block="stage_block" />
@@ -27,66 +55,6 @@
                         <Block v-for="keepBlock in keepBlocks" v-bind:block="keepBlock" />
                     </div>
                 </div>
-            </div>
-        </div>
-        <div class="full_scale" v-if="this.startCheck">
-            <div class="set_name">
-                <h2 class="text-center">テトリス</h2>
-                <h3 class="comment">制限時間は３分</h3>
-                <h3 class="comment">操作説明</h3>
-                <table class="comment">
-                    <tr>
-                        <th>矢印キー上（↑）</th>
-                        <td>:</td>
-                        <td>ブロックが右回転</td>
-                    </tr>
-                    <tr>
-                        <th>矢印キー右（→）</th>
-                        <td>:</td>
-                        <td>ブロックが右移動</td>
-                    </tr>
-                    <tr>
-                        <th>矢印キー上（←）</th>
-                        <td>:</td>
-                        <td>ブロックが左移動</td>
-                    </tr>
-                    <tr>
-                        <th>矢印キー下（↓）</th>
-                        <td>:</td>
-                        <td>ブロックが最下段に落ちる</td>
-                    </tr>
-                    <tr>
-                        <th>スペースキー</th>
-                        <td>:</td>
-                        <td>ブロックのキープと取り出し（一度目はキープのみ）</td>
-                    </tr>
-                </table>
-                <v-form @submit.prevent>
-                    <v-text-field v-model="name" label="お名前(ニックネーム)" required></v-text-field>
-                    <v-btn type="submit" block @click="start_game()" class="start_button">開始</v-btn>
-                </v-form>
-            </div>
-        </div>
-        <div class="full_scale" v-if="endCheck">
-            <div class="result">
-                <table>
-                    <tr>
-                        <th>順位</th>
-                        <td>:</td>
-                        <td>{{ parseInt(number) + 1 }}位</td>
-                    </tr>
-                    <tr>
-                        <th>名前</th>
-                        <td>:</td>
-                        <td>{{ name }}</td>
-                    </tr>
-                    <tr>
-                        <th>点数</th>
-                        <td>:</td>
-                        <td>{{ score }}点</td>
-                    </tr>
-                </table>
-                <v-btn @click="start_game" class="start_button">再挑戦</v-btn>
             </div>
         </div>
     </div>
@@ -144,12 +112,10 @@ export default {
     },
     mounted() {
         window.addEventListener("keydown", this.keydown_event);
+        this.start_game();
     },
     methods: {
         start_game() {
-            if (this.name === '') {
-                this.name = '名無し'
-            }
             this.stage = []
             for (let i = 0; i < 24; i++) {
                 this.stage.push([])
@@ -163,23 +129,12 @@ export default {
             this.startCheck = false
             this.endCheck = false
             this.start_turn()
-            this.start_timer()
         },
-        start_timer() {
-            this.time = 180;
-            this.timerInterval = setInterval(this.timer, 1000)
+        restart_game() {
+            clearInterval(this.interval)
+            this.start_game()
         },
-        timer() {
-            if (this.time === 0) {
-                clearInterval(this.interval)
-                clearInterval(this.timerInterval)
-                this.addData()
-                return
-            }
-            this.time--;
-
-        },
-        //ボタンを押したときの処理
+        //キーを押したときの処理
         keydown_event(event) {
             //指定キー以外の動きの無効化
             event.preventDefault();
@@ -362,7 +317,6 @@ export default {
             this.fallCount = 0
             clearInterval(this.interval)
             setTimeout(this.linecheck, 500)
-            // this.linecheck()
         },
         linecheck() {
             this.keepSecond = true
@@ -370,8 +324,6 @@ export default {
                 for (let j = 0; j < 10; j++) {
                     if (this.stage[i][j][2] != 0) {
                         clearInterval(this.interval)
-                        clearInterval(this.timerInterval)
-                        this.addData()
                         return
                     }
                 }
@@ -404,26 +356,8 @@ export default {
                     }
                 }
             }
-            // setTimeout(this.start_turn,1000)
             this.push_down = false
             this.start_turn()
-        },
-        async addData() {
-            const data = {
-                name: this.name,
-                point: this.score
-            }
-            const param = {
-                method: 'POST',
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(data),
-            }
-            const response = await fetch('http://127.0.0.1:8000/api/tetris/add', param);
-            const result = await response.json();
-            this.number = result[0]
-            this.endCheck = true
         },
         cloneArray(array1, array2) {
             for (let i = 0; i < 4; i++) {

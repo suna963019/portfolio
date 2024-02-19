@@ -32,9 +32,9 @@
           </router-link>
         </div>
       </v-app-bar>
-      <v-container>
-        <router-view id="view"></router-view>
-      </v-container>
+      <div class="container">
+        <router-view></router-view>
+      </div>
     </v-main>
   </v-app>
 </template>
@@ -52,15 +52,23 @@ p {
 .normal {
   text-decoration: none;
 }
-.bar-title{
+
+.bar-title {
   margin-left: 30px;
   font-size: 30px;
 }
+
 #home-links button {
   font-size: 20px;
   margin: 0 10px;
 }
-main{
+
+main {
   background-color: rgb(223, 243, 193);
+}
+
+.container{
+  display: flex;
+  padding: 30px 100px 0px;
 }
 </style>

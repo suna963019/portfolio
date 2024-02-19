@@ -5,7 +5,7 @@
             <h3 class="comment">操作説明</h3>
             <p class="comment">　英字で文字が出てくるので同じものをキーボードで打ってください。半角全角は区別します。</p>
         </div>
-        <div class="content_box">
+        <div class="game">
             <div class="d-flex text">
                 <pre class="message1">{{ message1 }}</pre>
                 <pre class="now">{{ now }}</pre>
@@ -110,11 +110,6 @@ export default {
 </script>
 
 <style scoped>
-.content_box {
-    width: 500px;
-    margin-right: auto;
-    position: relative;
-}
 
 .text {
     font-size: 48px;

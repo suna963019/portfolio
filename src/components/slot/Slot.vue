@@ -1,53 +1,37 @@
 <template>
-    <div class="content">
-        <div class="game_box">
-            <div class="d-flex justify-space-between w-600">
-                <h2>スコア : {{ score }}</h2>
-                <h2>残り回数 : {{ chance }}</h2>
-            </div>
-            <div class="slot_box d-flex">
-                <Lane v-bind:spin_check="spin_check[0]" v-bind:lane_num="0" v-on:add_value="add_value" ref="lane0" />
-                <Lane v-bind:spin_check="spin_check[1]" v-bind:lane_num="1" v-on:add_value="add_value" ref="lane1" />
-                <Lane v-bind:spin_check="spin_check[2]" v-bind:lane_num="2" v-on:add_value="add_value" ref="lane2" />
-            </div>
-            <div v-if="!spin_check_all && chance > 0" class="d-flex justify-center w-600">
-                <v-btn @click="spin" class="start_button">start</v-btn>
-            </div>
+    <div class="set_name">
+        <h2 class="text-center">スロットゲーム</h2>
+        <h3 class="comment">制限時間は３分</h3>
+        <h3 class="comment">操作説明</h3>
+        <table class="comment">
+            <tr>
+                <th>startボタン</th>
+                <td>:</td>
+                <td>回転開始</td>
+            </tr>
+            <tr>
+                <th>stopボタン</th>
+                <td>:</td>
+                <td>回転を一レーンずつ止める</td>
+            </tr>
+            <tr>
+                <th>スペースキー</th>
+                <td>:</td>
+                <td>回転開始 / 回転を左から一レーンずつ止める</td>
+            </tr>
+        </table>
+    </div>
+    <div class="game">
+        <div class="d-flex justify-space-between w-600">
+            <h2>スコア : {{ score }}</h2>
         </div>
-        <div v-if="startCheck" class="full_scale">
-            <div class="set_name">
-                <h2 class="text-center">スロットゲーム</h2>
-                <h3 class="comment">制限時間は３分</h3>
-                <h3 class="comment">操作説明</h3>
-                <table class="comment">
-                    <tr>
-                        <th>startボタン</th>
-                        <td>:</td>
-                        <td>回転開始</td>
-                    </tr>
-                    <tr>
-                        <th>stopボタン</th>
-                        <td>:</td>
-                        <td>回転を一レーンずつ止める</td>
-                    </tr>
-                    <tr>
-                        <th>スペースキー</th>
-                        <td>:</td>
-                        <td>回転開始 / 回転を左から一レーンずつ止める</td>
-                    </tr>
-                </table>
-                <v-form @submit.prevent>
-                    <v-text-field v-model="name" label="お名前(ニックネーム)" required></v-text-field>
-                    <v-btn type="submit" block @click="start"  class="start_button">開始</v-btn>
-                </v-form>
-            </div>
+        <div class="slot_box d-flex">
+            <Lane v-bind:spin_check="spin_check[0]" v-bind:lane_num="0" v-on:add_value="add_value" ref="lane0" />
+            <Lane v-bind:spin_check="spin_check[1]" v-bind:lane_num="1" v-on:add_value="add_value" ref="lane1" />
+            <Lane v-bind:spin_check="spin_check[2]" v-bind:lane_num="2" v-on:add_value="add_value" ref="lane2" />
         </div>
-        <div v-if="chance == 0" class="d-flex justify-center full_scale">
-            <div class="restart">
-                <p>スコア：{{ score }}</p>
-                <p>順位：{{ parseInt(number) + 1 }}</p>
-                <v-btn @click="start" class="start_button">再挑戦</v-btn>
-            </div>
+        <div v-if="!spin_check_all && chance > 0" class="d-flex justify-center w-600">
+            <v-btn @click="spin" class="start_button">start</v-btn>
         </div>
     </div>
 </template>
@@ -59,7 +43,6 @@ export default {
     data() {
         return {
             score: 0,
-            chance: 10,
             spin_check_all: false,
             spin_check: [false, false, false,],
             values: new Array(9),
@@ -71,8 +54,10 @@ export default {
     components: {
         Lane,
     },
-    created() {
+    mounted() {
         window.addEventListener('keydown', this.press_key);
+        this.spin();
+        this.start();
     },
     methods: {
         spin() {
@@ -95,7 +80,6 @@ export default {
         },
         endturn() {
             this.spin_check_all = false
-            this.chance -= 1
             for (let i = 0; i < 3; i++) {
                 let check = false
                 const start = this.values[i]
@@ -112,9 +96,6 @@ export default {
                     }
                 }
             }
-            if (this.chance == 0) {
-                this.addData()
-            }
         },
         press_key(event) {
             if (event.code === 'Space' && this.chance > 0) {
@@ -127,8 +108,6 @@ export default {
                 } else if (this.spin_check[2]) {
                     this.$refs.lane2.stop()
                 }
-            } else if (event.code === 'Enter' && this.chance == 0) {
-                this.start()
             }
 
         },
@@ -174,6 +153,7 @@ export default {
 <style scoped>
 .slot_box {
     height: 600px;
+    width: 600px;
     background-color: rgb(241, 241, 241);
     border: 1px solid black;
 }
@@ -184,18 +164,7 @@ export default {
     height: 80px;
 }
 
-.content {
-    padding-top: 50px;
-    height: 900px;
-    position: relative;
-}
-
 h2 {
-    margin: auto;
-}
-
-.game_box {
-    width: 600px;
     margin: auto;
 }
 </style>

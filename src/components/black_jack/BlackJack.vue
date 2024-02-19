@@ -6,11 +6,11 @@
         <div id="point_box">
             <p>{{ this.point }} point</p>
         </div>
-        <div id="next_box">
-            <button v-if="next" id="next" @click="set()">next</button>
+        <div id="next_box" v-if="next">
+            <button id="next" @click="set()">next</button>
             <p id="check_win">{{ check_win.text }}</p>
         </div>
-        <div id="button_box">
+        <div id="button_box" v-if="!next">
             <button id="double" @click="double()">Double</button>
             <button id="hit" @click="hit()">Hit</button>
             <button id="stand" @click="stand()">Stand</button>
