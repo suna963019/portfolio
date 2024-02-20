@@ -220,6 +220,7 @@ export default {
                     this.nowBlocks[i][1] = this.nowBlocksIndex[i][1] * 40 - 160
                 }
                 this.push_down = true
+                this.pushCheck=false
                 this.end_turn()
             }
             else if (downKey === 32) {

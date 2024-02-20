@@ -27,9 +27,6 @@
           <router-link to="/blackjack" class="normal text-white">
             <v-btn>ブラックジャック</v-btn>
           </router-link>
-          <router-link to="/ranking" class="normal text-white">
-            <v-btn>ランキング</v-btn>
-          </router-link>
         </div>
       </v-app-bar>
       <div class="container">

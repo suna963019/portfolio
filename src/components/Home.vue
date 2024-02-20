@@ -49,15 +49,6 @@
                     <img src="@/assets/blackjack_image.png" alt="" class="game_img">
                 </router-link>
             </div>
-            <div class="card">
-                <router-link to="/ranking" class="normal">
-                    <div class="row">
-                        <h2>ランキング</h2>
-                        <p>こちらにランキングが載ります。</p>
-                    </div>
-                    <img src="@/assets/ranking_image.png" alt="" class="game_img">
-                </router-link>
-            </div>
         </div>
     </div>
 </template>
