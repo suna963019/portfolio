@@ -175,7 +175,7 @@ export default {
                         !this.blocks[i * 8 + l - 1]) {
                         block_check = true
                         x = block_x - 8
-                        this.ball[0] = -Math.abs(this.ball[0])
+                        this.ball[0] = Math.abs(this.ball[0])
                     }
                     //右
                     if (match_y &&
@@ -184,7 +184,7 @@ export default {
                         !this.blocks[i * 8 + l + 1]) {
                         block_check = true
                         x = block_x + 88
-                        this.ball[0] = Math.abs(this.ball[0])
+                        this.ball[0] = -Math.abs(this.ball[0])
                     }
                     if (block_check) {
                         this.blocks[i * 8 + l] = false
