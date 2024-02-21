@@ -1,7 +1,6 @@
 <template>
     <div class="set_name">
         <h2 class="text-center">ブロックくずし</h2>
-        <h3 class="comment">制限時間なし</h3>
         <h3 class="comment">操作説明</h3>
         <table class="comment">
             <tr>
@@ -69,7 +68,7 @@ export default {
             this.endCheck = false
             this.ball[1] = -8
         },
-        restart(){
+        restart() {
             this.start()
         },
         end() {
@@ -123,8 +122,8 @@ export default {
             }
             //ラケットの当たり判定
             if (
-                this.ball[2] > this.raket[0] &&
-                this.ball[2] < this.raket[0] + 100 &&
+                this.ball[2] > this.raket[0] - 8 &&
+                this.ball[2] < this.raket[0] + 108 &&
                 this.ball[3] >= this.raket[1] - 18 && this.ball[3] <= this.raket[1]) {
                 y = -y + 1260
                 const a = this.ball[2] - this.raket[0] - 50
@@ -147,8 +146,8 @@ export default {
                     const match_x = this.ball[2] >= block_x && this.ball[2] < block_x + 80
                     //上
                     if (
-                        this.ball[3] > block_y - 8 &&
-                        this.ball[3] < block_y &&
+                        this.ball[3] > block_y &&
+                        this.ball[3] < block_y + 8 &&
                         match_x &&
                         !this.blocks[(i - 1) * 8 + l]
                     ) {
@@ -157,8 +156,8 @@ export default {
                         this.ball[1] = -this.ball[1]
                     }
                     //下
-                    if (this.ball[3] > block_y + 30 &&
-                        this.ball[3] < block_y + 38 &&
+                    if (this.ball[3] > block_y + 22 &&
+                        this.ball[3] < block_y + 30 &&
                         match_x &&
                         (i + 1 == 5 ||
                             !this.blocks[(i + 1) * 8 + l])) {
@@ -170,21 +169,21 @@ export default {
                         this.ball[3] < block_y + 30
                     //左
                     if (match_y &&
-                        this.ball[2] > block_x - 16 &&
+                        this.ball[2] > block_x - 8 &&
                         this.ball[2] < block_x &&
                         !this.blocks[i * 8 + l - 1]) {
                         block_check = true
                         x = block_x - 8
-                        this.ball[0] = Math.abs(this.ball[0])
+                        this.ball[0] = -Math.abs(this.ball[0])
                     }
                     //右
                     if (match_y &&
-                        this.ball[2] > block_x + 80 &&
-                        this.ball[2] < block_x + 88 &&
+                        this.ball[2] > block_x + 72 &&
+                        this.ball[2] < block_x + 80 &&
                         !this.blocks[i * 8 + l + 1]) {
                         block_check = true
                         x = block_x + 88
-                        this.ball[0] = -Math.abs(this.ball[0])
+                        this.ball[0] = Math.abs(this.ball[0])
                     }
                     if (block_check) {
                         this.blocks[i * 8 + l] = false

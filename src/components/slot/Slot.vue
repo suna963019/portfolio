@@ -1,7 +1,6 @@
 <template>
     <div class="set_name">
         <h2 class="text-center">スロットゲーム</h2>
-        <h3 class="comment">制限時間は３分</h3>
         <h3 class="comment">操作説明</h3>
         <table class="comment">
             <tr>
