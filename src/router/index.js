@@ -32,6 +32,11 @@ const routes = [
     name: 'BlackJack',
     component: () => import('../views/BlackJack.vue'),
   },
+  {
+    path: '/ranking',
+    name: 'ranking',
+    component: () => import('../views/Ranking.vue'),
+  },
 ]
 
 const router = createRouter({
