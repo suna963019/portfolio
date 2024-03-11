@@ -11,7 +11,6 @@
             </tr>
             <tr v-for="(data, index) in table.data">
                 <td>{{ currentPage * 10 + parseInt(index) + 1 }}</td>
-                <td>{{ data.name }}</td>
                 <td>{{ data.point }}</td>
             </tr>
         </table>
