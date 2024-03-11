@@ -74,6 +74,7 @@ export default {
         end() {
             this.ball[1] = 0
             this.ball[0] = 0
+            this.addData()
         },
         keydown(event) {
             if (this.key == '') {

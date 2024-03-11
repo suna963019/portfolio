@@ -48,6 +48,7 @@ export default {
             startCheck: true,
             number: 0,
             name: '',
+            chance:10,
         };
     },
     components: {
@@ -78,9 +79,9 @@ export default {
             }
         },
         endturn() {
+            this.chance-=1
             this.spin_check_all = false
             for (let i = 0; i < 3; i++) {
-                let check = false
                 const start = this.values[i]
                 for (let l = -1; l < 2; l++) {
                     if (i + l * 2 < 0 || i + l * 2 > 2) {
@@ -94,6 +95,11 @@ export default {
                         }
                     }
                 }
+            }
+            if (this.chance===0) {
+                this.addData()
+                this.chance=10
+                this.score=0
             }
         },
         press_key(event) {
@@ -117,9 +123,6 @@ export default {
             this.start()
         },
         start() {
-            if (this.name === '') {
-                this.name = '名無し'
-            }
             this.startCheck = false
             this.chance = 10
             this.score = 0
