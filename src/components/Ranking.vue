@@ -1,32 +1,33 @@
 <template>
-    <v-select class="selecter" @update:modelValue="select_table()" :items="title" v-model="select" item-title="name" item-value="str" return-object>
-    </v-select>
-    <table>
-        <tr>
-            <th>順位</th>
-            <th>名前</th>
-            <th>得点</th>
-        </tr>
-        <tr v-for="(data, index) in table.data">
-            <td>{{ currentPage * 10 + parseInt(index) + 1 }}</td>
-            <td>{{ data.name }}</td>
-            <td>{{ data.point }}</td>
-        </tr>
-    </table>
-    <v-pagination :length="lastPage"></v-pagination>
+    <div>
+        <v-select class="selecter" @update:modelValue="select_table()" :items="title" v-model="select" item-title="name"
+            item-value="str" return-object>
+        </v-select>
+        <table>
+            <tr>
+                <th>順位</th>
+                <th>名前</th>
+                <th>得点</th>
+            </tr>
+            <tr v-for="(data, index) in table.data">
+                <td>{{ currentPage * 10 + parseInt(index) + 1 }}</td>
+                <td>{{ data.name }}</td>
+                <td>{{ data.point }}</td>
+            </tr>
+        </table>
+        <v-pagination :length="lastPage"></v-pagination>
+    </div>
 </template>
 <script>
 export default {
     data() {
         return {
             title: [
-                { name: 'テトリス', str: 'tetris' },
                 { name: 'スロット', str: 'slot' },
-                { name: 'タイピング', str: 'typing' },
                 { name: 'ブロック崩し', str: 'blockbreaker' },
             ],
             now_title: '',
-            select: { name: 'テトリス', str: 'tetris' },
+            select: { name: 'スロット', str: 'slot' },
             table: Object,
             currentPage: 0,
             lastPage: 0,
@@ -36,11 +37,11 @@ export default {
         this.get_table()
     },
     methods: {
-        select_table(){
-            setTimeout(this.get_table,1)
+        select_table() {
+            setTimeout(this.get_table, 1)
         },
         async get_table() {
-            const url = 'http://127.0.0.1:8000/api/' + this.select['str'] + '/index';
+            const url = 'http://54.199.63.195/api/' + this.select['str'] + '/index';
             // 指定したURLからデータを取得
             const response = await fetch(url);
             // データをJavaScriptのオブジェクトに変換
@@ -76,7 +77,7 @@ td {
     text-align: center;
 }
 
-.selecter{
+.selecter {
     width: 200px;
 }
 </style>
