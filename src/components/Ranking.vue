@@ -1,12 +1,11 @@
 <template>
+    <v-select class="selecter" @update:modelValue="select_table()" :items="title" v-model="select" item-title="name"
+        item-value="str" return-object>
+    </v-select>
     <div>
-        <v-select class="selecter" @update:modelValue="select_table()" :items="title" v-model="select" item-title="name"
-            item-value="str" return-object>
-        </v-select>
-        <table>
+        <table >
             <tr>
                 <th>順位</th>
-                <th>名前</th>
                 <th>得点</th>
             </tr>
             <tr v-for="(data, index) in table.data">

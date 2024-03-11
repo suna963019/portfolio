@@ -197,6 +197,23 @@ export default {
             this.ball[2] = x
             this.ball[3] = y
         },
+        async addData() {
+            const data = {
+                name: this.name,
+                point: this.score
+            }
+            const param = {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(data),
+            }
+            const response = await fetch('http://54.199.63.195/api/blockbreaker/add', param);
+            const result = await response.json();
+            this.number = result[0]
+            this.endCheck = true
+        },
     }
 }
 </script>

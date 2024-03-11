@@ -139,7 +139,7 @@ export default {
                 },
                 body: JSON.stringify(data),
             }
-            const response = await fetch('http://127.0.0.1:8000/api/slot/add', param);
+            const response = await fetch('http://54.199.63.195/api/slot/add', param);
             const result = await response.json();
             this.number = result[0]
             this.endCheck = true
